@@ -9,6 +9,8 @@
 #define BUTTON_PIN 3
 #define STATE_PIN 4
 
+
+
 volatile int shared = 0;
 
 void buttonPressed() {
@@ -21,12 +23,25 @@ void buttonPressed() {
     }
 }
 
+void beep(int beepTime) {
+    gpio_set_level(LED_PIN, 1);
+    vTaskDelay(beepTime);
+    gpio_set_level(LED_PIN, 0);
+    vTaskDelay(beepTime);
+}
+
 void ledBlink() {
     gpio_pad_select_gpio(LED_PIN);
     gpio_set_direction(LED_PIN, GPIO_MODE_OUTPUT);
-    gpio_set_level(LED_PIN, 1);
-    vTaskDelay(100);
-    gpio_set_level(LED_PIN, 0);
+    beep(20);
+    beep(20);
+    beep(20);
+    beep(50);
+    beep(50);
+    beep(50);
+    beep(20);
+    beep(20);
+    beep(20);
     vTaskDelay(100);
 }
 
@@ -42,11 +57,9 @@ void stateButton(void *pvParams) {
 }
 
 void stateMachine(void *pvParams) {
-    int sharedv2;
     while (1)
     {
-        sharedv2 = shared;
-        switch (sharedv2 % 2)
+        switch (shared % 2)
         {
         case 0:
             buttonPressed();
