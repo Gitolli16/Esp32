@@ -58,7 +58,7 @@ void LED_Control_Task(void *params)
                 if (flag > 0) {
                     for (int k = 0; k < 7; k++)
                     {
-                        gpio_set_level(valot[9][k], 0);
+                        gpio_set_level(valot[9][k], 1);
                     }
                     flag = 0;
                     break;
